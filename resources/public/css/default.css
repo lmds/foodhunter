@@ -8,11 +8,9 @@ Released for free under a Creative Commons Attribution 2.5 License
 body {
 	margin: 0;
 	padding: 0;
-	background: #FFFFFF url(/img/img01.jpg) repeat-x left top;
 	text-align: justify;
 	font-family: Arial, Helvetica, sans-serif;
-	font-size: 12px;
-	color: #404040;
+	font-size: 12px;	
 }
 
 form {
@@ -123,10 +121,12 @@ img.right {
 	height: 71px;
 	letter-spacing: -1px;
 	font-family: Arial, Helvetica, sans-serif;
+	background: #FFFFFF url(/img/img01.jpg) repeat-x left top;
 }
 
 
 #headerbg {
+
 	clear: both;
 	margin: 0 auto;
 	width: 900px;
@@ -134,6 +134,7 @@ img.right {
 	background: url(/img/img05.jpg) no-repeat left top;
 	margin: 0 auto;
 	margin-top: 20px;
+
 }
 
 /* Logo */

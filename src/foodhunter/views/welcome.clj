@@ -57,5 +57,6 @@
   (resp/json "ok"))
 
 (defpage [:post "/add-restaurant"] {name :name, rating :rating, style :style}
-  (user/add-restuarant (session/get :username) name (Integer/parseInt rating) style)
+  (when (and (not-empty name)(not-empty rating))
+    (user/add-restuarant (session/get :username) name (Integer/parseInt rating) style))
   (resp/redirect "/"))
