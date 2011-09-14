@@ -11,7 +11,6 @@
         hiccup.form-helpers))
 
 
-
 (defn render-rating [name rating autosumbit?]  
   (into [:div {:class "Clear"}] 
         (map (fn [v] 
@@ -25,6 +24,7 @@
                            attrs)]))
              (range 1 6))))
 
+
 (defn render-restaurants [restaurants]
   [:table
    [:tbody
@@ -35,13 +35,19 @@
        [:td (render-rating name rating true)] 
        [:td style]])]])
 
+
 (defpartial add-restaurant []
-  (form-to [:post "/add-restaurant"]
-           (common/build-form-table 
-             ["name" (text-field "name")]             
-             ["style" (text-field "style")]
-             ["rating" (render-rating "rating" 0 false)])
-           (submit-button {:class "submit"} "add")))
+  [:div {:class "formErrorContent" :style "display: none"} "This field is required"]
+  ((add-optional-attrs form-to)
+    {:id "submitNewRestaurantForm"}
+    [:post "/add-restaurant"]
+    
+     (common/build-fieldset 
+       ["name"   (common/required-field "name")]             
+       ["style"  (common/required-field "style")]
+       ["rating" (render-rating "rating" 0 false)]) 
+    (submit-button {:class "submit"} "add")))
+
 
 (defpage "/" []
   (common/page   
@@ -52,11 +58,14 @@
       [:h3 "add a restaurant"]
       (add-restaurant)]]))
 
+
 (defpage [:post "/submit-rating"] {name :name rating :rating}
   (user/update-rating (session/get :username) name (Integer/parseInt rating))  
   (resp/json "ok"))
 
+
 (defpage [:post "/add-restaurant"] {name :name, rating :rating, style :style}
-  (when (and (not-empty name)(not-empty rating))
-    (user/add-restuarant (session/get :username) name (Integer/parseInt rating) style))
+  (when (not-empty name)
+    (user/add-restuarant 
+      (session/get :username) name (if rating (Integer/parseInt rating) 0) style))
   (resp/redirect "/"))
