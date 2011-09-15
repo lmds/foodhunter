@@ -1,8 +1,6 @@
-(ns foodhunter.model.user
-  (:require [noir.util.crypt :as crypt]))
+(ns foodhunter.model.user)
 
 ;;check how often the user likes to eat at a place, factor into suggestions
-
 
 (def *users*
   (atom 
@@ -26,8 +24,8 @@
 (defn get-profile [userid]
   (:info (get @*users* userid)))
 
-(defn get-restaurants [userid]  
-  (:restaurants (get @*users* userid)))
+(defn get-restaurants [user]  
+  (:restaurants (get @*users* user)))
 
 (defn add-restuarant [user restaurant rating style]  
   (swap! *users*
@@ -36,11 +34,12 @@
                       (fn [restaurants] 
                         (assoc restaurants restaurant {:rating rating :style style}))))))
 
-(defn remove-restaurant [user restaurant]
+(defn remove-restuarant [user restaurant]
   (swap! *users*
          (fn [users]
            (update-in users [user :restaurants]
-                      (fn [restaurants] (dissoc restaurants restaurant))))))
+                      (fn [restaurants]
+                        (dissoc restaurants restaurant))))))
 
 (defn update-rating [user name rating]  
   (swap! *users*

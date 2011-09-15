@@ -9,5 +9,5 @@
     (server/start port {:mode mode
                         :ns 'foodhunter})))
 
-;(-main)
+(-main)
 

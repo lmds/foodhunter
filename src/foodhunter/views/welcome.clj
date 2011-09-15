@@ -28,12 +28,15 @@
 (defn render-restaurants [restaurants]
   [:table
    [:tbody
-    [:tr [:th "Name"] [:th "Rating"] [:th "Style"]]
+    [:tr [:th "Name"] [:th "Rating"] [:th "Style"] [:th]]
     (for [[name {id :id, rating :rating, style :style}] restaurants]
       [:tr 
        [:td name] 
        [:td (render-rating name rating true)] 
-       [:td style]])]])
+       [:td style]
+       [:td (form-to [:post "/remove-restaurant"]
+                     [:input {:name "name" :type "hidden" :value name}]
+                     ((add-optional-attrs submit-button) {:class "deleteButton"} ""))]])]])
 
 
 (defpartial add-restaurant []
@@ -46,7 +49,7 @@
        ["name"   (common/required-field "name")]             
        ["style"  (common/required-field "style")]
        ["rating" (render-rating "rating" 0 false)]) 
-    (submit-button {:class "submit"} "add")))
+    (submit-button "add")))
 
 
 (defpage "/" []
@@ -68,4 +71,10 @@
   (when (not-empty name)
     (user/add-restuarant 
       (session/get :username) name (if rating (Integer/parseInt rating) 0) style))
+  (resp/redirect "/"))
+
+
+(defpage [:post "/remove-restaurant"] {name :name}  
+  (println name)
+  (user/remove-restuarant (session/get :username) name)
   (resp/redirect "/"))

@@ -5,6 +5,17 @@ http://www.freecsstemplates.org
 Released for free under a Creative Commons Attribution 2.5 License
 */
 
+.deleteButton {
+  width: 14px;
+  height: 16px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent url(/img/trash.gif) no-repeat center top;  
+  cursor: pointer; /* hand-shaped cursor */
+  cursor: hand; /* for IE 5.x */
+}
+
 label { width: 10em; float: left; }
 label.error { float: none; color: red; padding-left: .5em; vertical-align: top; }
 

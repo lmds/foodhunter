@@ -11,7 +11,7 @@
 (def *unknown-user* "unknown user")
 
 (defn required-password-field [id & [value]]
-  ((add-optional-attrs text-field) {:class "required"} id value))
+  ((add-optional-attrs password-field) {:class "required"} id value))
 
 (defn field-with-class [id class value]
   ((add-optional-attrs text-field) {:class class} id value))
@@ -33,7 +33,7 @@
 
 (defn build-menu [& items]
   [:div#header
-   [:duv#logo
+   [:div#logo
     [:h1 (link-to "/" "Food Hunter")]]   
    [:div#menu
     (into [:ul] (map render-li items))]])
